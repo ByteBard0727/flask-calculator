@@ -1,0 +1,16 @@
+FROM Ubuntu
+
+RUN apt-get update
+RUN apt-get install -y python
+RUN apt-get install -y Java
+
+RUN pip install flask
+RUN pip install
+
+COPY . /home/joey5055/Python-projects/flask-calculator/app.py
+
+ENTRYPOINT FLASK_APP=/OP
+
+docker build Dockerfile -t 
+
+docker push 

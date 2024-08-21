@@ -7,12 +7,12 @@ def home():
     result = None
     if request.method == 'POST':
         try:
-            # Retrieve input values from the form
+            # The functions that allow the user to input and pin the values to the designated 'nr1 or nr2'
             nr1 = float(request.form['nr1'])
             nr2 = float(request.form['nr2'])
             choice = request.form['choice']
 
-            # Perform calculation based on user choice
+            # The functions that explain how to do the calculations
             if choice == '-':
                 result = nr1 - nr2
             elif choice == '+':
