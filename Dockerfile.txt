@@ -1,16 +1,22 @@
-FROM Ubuntu
+FROM ubuntu:22.04
 
-RUN apt-get update
-RUN apt-get install -y python
-RUN apt-get install -y Java
+RUN apt-get update && apt-get install -y \
+    python3 \
+    python3-pip \
+    openjdk-21-jre
+    
+WORKDIR /app
 
-RUN pip install flask
-RUN pip install
+COPY . .
 
-COPY . /home/joey5055/Python-projects/flask-calculator/app.py
+RUN pip3 install --no-cache-dir -r requirements.txt
 
-ENTRYPOINT FLASK_APP=/OP
+EXPOSE 5000
 
-docker build Dockerfile -t 
+ENV FLASK_APP=app.py
 
-docker push 
+CMD ["flask", "run", "--host=0.0.0.0"]
+
+#Sidenote there are optimizations possible. Working from Ubuntu might increase the size of the image, but for now i'll leave it as is.
+#The java version is important later as Jenkins is being used seems there are some issues with lower versions of java installed.
+#Lowest working java version is 17 and latest updated java version as of today is 22 atm.
