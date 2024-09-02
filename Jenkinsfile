@@ -21,7 +21,7 @@ pipeline {
             steps {
                 script {
                     // Build Docker image
-                    docker.build("${DOCKER_IMAGE}:latest")
+                    docker.build("${my-flask-calculator}:latest")
                 }
             }
         }
@@ -30,7 +30,7 @@ pipeline {
             steps {
                 script {
                     // Run tests inside the Docker container
-                    docker.image("${DOCKER_IMAGE}:latest").inside {
+                    docker.image("${my-flask-calculator}:latest").inside {
                         sh 'pytest test_app.py'
                     }
                 }
@@ -41,8 +41,8 @@ pipeline {
             steps {
                 script {
                     // Push the Docker image to Docker Hub
-                    docker.withRegistry("https://${DOCKER_REGISTRY}", 'dockerhub-credentials') {
-                        docker.image("${DOCKER_IMAGE}:latest").push('latest')
+                    docker.withRegistry("docker push bytebard0727/my-flask-calculator:tagname", 'dockerhub-credentials') {
+                        docker.image("${my-flask-calculator}:latest").push('latest')
                     }
                 }
             }
@@ -52,7 +52,7 @@ pipeline {
             steps {
                 // Deploy the Docker image (e.g., run it on a server)
                 // For example, use Docker commands to deploy
-                sh 'docker run -d -p 5000:5000 ${DOCKER_IMAGE}:latest'
+                sh 'docker run -d -p 5000:5000 ${my-flask-calculator}:latest'
             }
         }
     }
