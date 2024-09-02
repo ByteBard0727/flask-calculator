@@ -1,0 +1,18 @@
+#So I ran into issues when I dockerized my Jenkins. 
+#Actually some of the more lower level layers of the environment necessary for operations related to setup and deployment within the jenkins container; need to be the same as the environment containerized web-app.
+#This includes that dependencies from the app such as (docker, git) will be required to be installed otherwise in the jenkins file the first stage checkout the git repo is not possible becuase git is not installed. Additionally, docker is required to build the webapp image and to be able to push changes to the webapp to dockerhub.
+
+#I started by creating a docker image, mounting it to the preferred local directory with docker run -d -p 8083:8080 -p 50000:50000 --name jenkins \ --volume /home/joey5055/jenkins_home:/var/jenkins_home \ jenkins/jenkins:lts.
+#This way if accessing the localhost port, (in my case 8083) I can keep my jenkins settings stored in my local /home/ dir.
+#The next step was to setup the admin logging into jenkins for the first time with the provided initial password.
+#Then configure jenkins downloading all the plugins (docker, git, pipeline, etc..)
+#lastly make the pipeline and point it to my jenkinsfile in the app providing my authentication for the github repo.
+
+
+#Some troubleshooting that I have done: 
+#1. Going into the container 614 is my container id in this case: "docker exec -it 614 /bin/bash" and installing docker with ap-get install docker is not possible due to not being able to use sudo or root. I did not want to run the jenkins container in root due to security reasons.
+
+#2. Creating a new jenkins image mounting the docker socket so that the jenkins container can interact with the socket on my host with: "docker build -t custom-jenkins . docker run -d -p 8083:8080 -p 50000:50000 --name jenkins-docker \ --volume /home/joey5055/jenkins_home:/var/jenkins_home \ --volume /var/run/docker.sock:/var/run/docker.sock \ custom-jenkins" For reasons unkown this still did not work when running the pipeline docker is still missing. 
+
+#3. Manually downloading docker and placing it into the jenkins container mounted volume.
+

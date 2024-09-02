@@ -5,6 +5,8 @@ pipeline {
         DOCKER_IMAGE = 'my-flask-calculator'
         DOCKER_REGISTRY = 'docker.io'
         REPO_NAME = 'ByteBard0727/my-flask-calculator'
+        // I have added the dir in the mounted volume of my containerized jenkins
+        PATH = "/var/jenkins_home/docker:$PATH"  // please note if you run this on your own pc this directory might be different
     }
 
     stages {
