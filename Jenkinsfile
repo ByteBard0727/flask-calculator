@@ -21,7 +21,7 @@ pipeline {
             steps {
                 script {
                     // Build Docker image
-                    docker.build("${my-flask-calculator}:latest")
+                    docker.build("${my-flask-calculator}:latest", "-f Dockerfile.txt .")
                 }
             }
         }
